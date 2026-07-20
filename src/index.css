@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+/*
+ * Tokens de design extraídos do protótipo Figma Make (Épico FE-8, tarefa 1):
+ * antes ficavam hardcoded inline em cada componente (`inputCls`, `cardCls`
+ * etc). Tailwind v4 gera utilitários automaticamente a partir de qualquer
+ * `--color-*`/`--font-*` declarado aqui (ex.: `bg-brand`, `text-ink`,
+ * `font-heading`).
+ */
+@theme {
+  --color-brand: #1a6e54;
+  --color-brand-dark: #155a43;
+  --color-brand-darker: #114a38;
+  --color-bg-soft: #f4f8f6;
+  --color-ink: #1a2d27;
+  --color-muted: #6b8279;
+  --color-border-soft: #e0ece8;
+  --color-border-input: #d4e4de;
+
+  --font-sans: "Nunito", ui-sans-serif, sans-serif;
+  --font-heading: "Plus Jakarta Sans", ui-sans-serif, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+}
