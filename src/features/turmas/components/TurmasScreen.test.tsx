@@ -1,0 +1,89 @@
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import { TurmasScreen } from "./TurmasScreen";
+import { useTurmas } from "../hooks/useTurmas";
+import { useAuthStore } from "../../../store/authStore";
+import type { TurmaResumo } from "../hooks/useTurmas";
+
+jest.mock("../hooks/useTurmas");
+
+const mockedUseTurmas = useTurmas as jest.MockedFunction<typeof useTurmas>;
+
+function mockTurmasResult(overrides: Partial<ReturnType<typeof useTurmas>>) {
+  mockedUseTurmas.mockReturnValue({
+    data: undefined,
+    isPending: false,
+    isError: false,
+    ...overrides,
+  } as ReturnType<typeof useTurmas>);
+}
+
+function renderScreen() {
+  return render(
+    <MemoryRouter>
+      <TurmasScreen />
+    </MemoryRouter>,
+  );
+}
+
+describe("TurmasScreen", () => {
+  beforeEach(() => {
+    useAuthStore.setState({
+      accessToken: "token-fake",
+      user: {
+        id: "1",
+        name: "Prof. Teste",
+        email: "prof@escola.com",
+        lastLoginAt: null,
+        createdAt: "2026-01-01T00:00:00.000Z",
+        updatedAt: "2026-01-01T00:00:00.000Z",
+      },
+    });
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("mostra o estado de erro quando a busca falha", () => {
+    mockTurmasResult({ isError: true });
+
+    renderScreen();
+
+    expect(screen.getByText(/não foi possível carregar suas turmas/i)).toBeInTheDocument();
+  });
+
+  it("mostra o estado vazio quando não há turmas", () => {
+    mockTurmasResult({ data: [] });
+
+    renderScreen();
+
+    expect(screen.getByText("Nenhuma turma cadastrada ainda.")).toBeInTheDocument();
+  });
+
+  it("mostra as turmas com contagem de alunos e perfis", () => {
+    const turmas: TurmaResumo[] = [
+      {
+        id: "t1",
+        name: "6º Ano A",
+        schoolId: "school-1",
+        gradeId: "grade-1",
+        teacherId: "1",
+        createdAt: "2026-01-01T00:00:00.000Z",
+        updatedAt: "2026-01-01T00:00:00.000Z",
+        deletedAt: null,
+        students: [
+          { id: "s1", name: "Lucas", email: "lucas@escola.com", learningProfile: { id: "p1", name: "Simplificado", prompt: {} } },
+          { id: "s2", name: "Ana", email: "ana@escola.com", learningProfile: null },
+        ],
+      },
+    ];
+    mockTurmasResult({ data: turmas });
+
+    renderScreen();
+
+    expect(screen.getByText("6º Ano A")).toBeInTheDocument();
+    expect(screen.getByText("2")).toBeInTheDocument();
+    expect(screen.getByText("1× Simplificado")).toBeInTheDocument();
+  });
+});

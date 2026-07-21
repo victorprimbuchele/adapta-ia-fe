@@ -1,0 +1,101 @@
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
+import { TurmaNovaScreen } from "./TurmaNovaScreen";
+import { useEscolas } from "../hooks/useEscolas";
+import { useSeries } from "../hooks/useSeries";
+import { useCreateTurma } from "../hooks/useCreateTurma";
+import { useAuthStore } from "../../../store/authStore";
+
+jest.mock("../hooks/useEscolas");
+jest.mock("../hooks/useSeries");
+jest.mock("../hooks/useCreateTurma");
+
+const mockedUseEscolas = useEscolas as jest.MockedFunction<typeof useEscolas>;
+const mockedUseSeries = useSeries as jest.MockedFunction<typeof useSeries>;
+const mockedUseCreateTurma = useCreateTurma as jest.MockedFunction<typeof useCreateTurma>;
+
+function renderScreen() {
+  return render(
+    <MemoryRouter>
+      <TurmaNovaScreen />
+    </MemoryRouter>,
+  );
+}
+
+describe("TurmaNovaScreen", () => {
+  beforeEach(() => {
+    useAuthStore.setState({
+      accessToken: "token-fake",
+      user: {
+        id: "1",
+        name: "Prof. Teste",
+        email: "prof@escola.com",
+        lastLoginAt: null,
+        createdAt: "2026-01-01T00:00:00.000Z",
+        updatedAt: "2026-01-01T00:00:00.000Z",
+      },
+    });
+
+    mockedUseEscolas.mockReturnValue({
+      data: [{ id: "school-1", name: "E.M. Santos Dumont", city: "São Paulo", state: "SP", createdAt: "", updatedAt: "" }],
+      isPending: false,
+    } as ReturnType<typeof useEscolas>);
+
+    mockedUseSeries.mockReturnValue({
+      data: [{ id: "grade-1", name: "6º Ano", sortOrder: 6, createdAt: "", updatedAt: "" }],
+      isPending: false,
+    } as ReturnType<typeof useSeries>);
+
+    mockedUseCreateTurma.mockReturnValue({
+      mutate: jest.fn(),
+      isPending: false,
+      isError: false,
+      error: null,
+    } as unknown as ReturnType<typeof useCreateTurma>);
+  });
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it("mantém o botão desabilitado enquanto campos obrigatórios estão vazios", () => {
+    renderScreen();
+
+    expect(screen.getByRole("button", { name: /criar turma/i })).toBeDisabled();
+  });
+
+  it("habilita o botão quando nome, série e escola são preenchidos", async () => {
+    const user = userEvent.setup();
+    renderScreen();
+
+    await user.type(screen.getByLabelText("Nome da turma"), "6º Ano A");
+    await user.selectOptions(screen.getByLabelText("Série"), "grade-1");
+    await user.selectOptions(screen.getByLabelText("Escola"), "school-1");
+
+    expect(screen.getByRole("button", { name: /criar turma/i })).toBeEnabled();
+  });
+
+  it("envia os dados do formulário ao confirmar", async () => {
+    const mutate = jest.fn();
+    mockedUseCreateTurma.mockReturnValue({
+      mutate,
+      isPending: false,
+      isError: false,
+      error: null,
+    } as unknown as ReturnType<typeof useCreateTurma>);
+
+    const user = userEvent.setup();
+    renderScreen();
+
+    await user.type(screen.getByLabelText("Nome da turma"), "6º Ano A");
+    await user.selectOptions(screen.getByLabelText("Série"), "grade-1");
+    await user.selectOptions(screen.getByLabelText("Escola"), "school-1");
+    await user.click(screen.getByRole("button", { name: /criar turma/i }));
+
+    expect(mutate).toHaveBeenCalledWith(
+      { name: "6º Ano A", gradeId: "grade-1", schoolId: "school-1" },
+      expect.anything(),
+    );
+  });
+});
