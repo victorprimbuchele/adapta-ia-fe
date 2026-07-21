@@ -3,6 +3,7 @@ import { ChevronRight, GraduationCap, Pencil, Plus, Trash2, UserPlus } from "luc
 import { useNavigate } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
+import { ProfileBadge } from "../../../components/shared/ProfileBadge";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { useDeleteTurma } from "../hooks/useDeleteTurma";
@@ -46,13 +47,12 @@ function TurmaCard({ turma, onDelete }: { turma: TurmaResumo; onDelete: (turma: 
                 aluno{turma.students.length !== 1 ? "s" : ""}
               </span>
               {profiles.slice(0, 3).map((profile) => (
-                <span
+                <ProfileBadge
                   key={profile.id}
-                  className="text-xs font-bold px-2 py-0.5 rounded-full bg-brand/10 text-brand max-w-[160px] truncate"
-                  title={profile.name}
-                >
-                  {profile.count}× {profile.name}
-                </span>
+                  name={profile.name}
+                  count={profile.count}
+                  className="px-2 py-0.5 max-w-[160px]"
+                />
               ))}
             </div>
           </div>
