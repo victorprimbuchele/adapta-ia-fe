@@ -8,7 +8,7 @@ export function StatusBadge({ isDraft }: { isDraft: boolean }) {
     <span
       className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${
         isDraft
-          ? "bg-slate-100 text-slate-500 border border-slate-200"
+          ? "bg-slate-100 text-slate-600 border border-slate-200"
           : "bg-green-50 text-green-700 border border-green-200"
       }`}
     >

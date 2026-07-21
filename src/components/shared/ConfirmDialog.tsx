@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Loader2 } from "lucide-react";
 
 export interface ConfirmDialogProps {
@@ -30,6 +30,9 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const cancelButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -40,6 +43,15 @@ export function ConfirmDialog({
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, isConfirming, onCancel]);
+
+  useEffect(() => {
+    if (open) {
+      triggerElementRef.current = document.activeElement as HTMLElement | null;
+      cancelButtonRef.current?.focus();
+    } else {
+      triggerElementRef.current?.focus();
+    }
+  }, [open]);
 
   if (!open) return null;
 
@@ -56,7 +68,10 @@ export function ConfirmDialog({
         className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="confirm-dialog-title" className="text-lg font-bold text-ink font-heading">
+        <h2
+          id="confirm-dialog-title"
+          className="text-lg font-bold text-ink font-heading"
+        >
           {title}
         </h2>
         <p id="confirm-dialog-description" className="mt-2 text-sm text-muted">
@@ -71,6 +86,7 @@ export function ConfirmDialog({
 
         <div className="mt-6 flex gap-3">
           <button
+            ref={cancelButtonRef}
             type="button"
             onClick={onCancel}
             disabled={isConfirming}

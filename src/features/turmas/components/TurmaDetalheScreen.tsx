@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
 import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
+import { ProfileBadge } from "../../../components/shared/ProfileBadge";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { useRemoveStudent } from "../../alunos/hooks/useRemoveStudent";
@@ -158,15 +159,7 @@ export function TurmaDetalheScreen() {
                       <p className="font-bold text-sm text-ink">{student.name}</p>
                       <p className="text-xs text-muted mt-0.5">{student.email}</p>
                     </div>
-                    {student.learningProfile ? (
-                      <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-brand/10 text-brand max-w-[220px] truncate">
-                        {student.learningProfile.name}
-                      </span>
-                    ) : (
-                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
-                        Sem perfil definido
-                      </span>
-                    )}
+                    <ProfileBadge name={student.learningProfile?.name} className="max-w-[220px]" />
                     <div className="flex items-center">
                       <button
                         type="button"
