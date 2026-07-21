@@ -1,13 +1,17 @@
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
 import { TurmasScreen } from "./TurmasScreen";
 import { useTurmas } from "../hooks/useTurmas";
+import { useDeleteTurma } from "../hooks/useDeleteTurma";
 import { useAuthStore } from "../../../store/authStore";
 import type { TurmaResumo } from "../hooks/useTurmas";
 
 jest.mock("../hooks/useTurmas");
+jest.mock("../hooks/useDeleteTurma");
 
 const mockedUseTurmas = useTurmas as jest.MockedFunction<typeof useTurmas>;
+const mockedUseDeleteTurma = useDeleteTurma as jest.MockedFunction<typeof useDeleteTurma>;
 
 function mockTurmasResult(overrides: Partial<ReturnType<typeof useTurmas>>) {
   mockedUseTurmas.mockReturnValue({
@@ -39,6 +43,13 @@ describe("TurmasScreen", () => {
         updatedAt: "2026-01-01T00:00:00.000Z",
       },
     });
+
+    mockedUseDeleteTurma.mockReturnValue({
+      mutate: jest.fn(),
+      isPending: false,
+      isError: false,
+      error: null,
+    } as unknown as ReturnType<typeof useDeleteTurma>);
   });
 
   afterEach(() => {
@@ -85,5 +96,38 @@ describe("TurmasScreen", () => {
     expect(screen.getByText("6º Ano A")).toBeInTheDocument();
     expect(screen.getByText("2")).toBeInTheDocument();
     expect(screen.getByText("1× Simplificado")).toBeInTheDocument();
+  });
+
+  it("chama a exclusão com o id da turma ao confirmar no card", async () => {
+    const mutate = jest.fn();
+    mockedUseDeleteTurma.mockReturnValue({
+      mutate,
+      isPending: false,
+      isError: false,
+      error: null,
+    } as unknown as ReturnType<typeof useDeleteTurma>);
+
+    const turmas: TurmaResumo[] = [
+      {
+        id: "t1",
+        name: "6º Ano A",
+        schoolId: "school-1",
+        gradeId: "grade-1",
+        teacherId: "1",
+        createdAt: "2026-01-01T00:00:00.000Z",
+        updatedAt: "2026-01-01T00:00:00.000Z",
+        deletedAt: null,
+        students: [],
+      },
+    ];
+    mockTurmasResult({ data: turmas });
+
+    const user = userEvent.setup();
+    renderScreen();
+
+    await user.click(screen.getByRole("button", { name: "Excluir turma" }));
+    await user.click(screen.getByRole("button", { name: "Excluir" }));
+
+    expect(mutate).toHaveBeenCalledWith("t1", expect.anything());
   });
 });

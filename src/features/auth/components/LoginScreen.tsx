@@ -5,6 +5,7 @@ import { Brain, CheckCircle } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
+import { PasswordInput } from "../../../components/ui/password-input";
 import { Card } from "../../../components/ui/card";
 import { FieldError, FormAlert } from "../../../components/shared/FormError";
 import { useAuth } from "../hooks/useAuth";
@@ -86,7 +87,7 @@ export function LoginScreen() {
                     Esqueci minha senha
                   </button>
                 </div>
-                <Input id="password" type="password" autoComplete="current-password" {...register("password")} />
+                <PasswordInput id="password" autoComplete="current-password" {...register("password")} />
                 <FieldError message={errors.password?.message} />
               </div>
               <Button

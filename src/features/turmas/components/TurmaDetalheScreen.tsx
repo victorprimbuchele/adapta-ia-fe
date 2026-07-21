@@ -7,6 +7,7 @@ import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { useRemoveStudent } from "../../alunos/hooks/useRemoveStudent";
+import { useDeleteTurma } from "../hooks/useDeleteTurma";
 import { useSeries } from "../hooks/useSeries";
 import { useEscolas } from "../hooks/useEscolas";
 import { useTurmaDetalhe } from "../hooks/useTurmaDetalhe";
@@ -50,7 +51,9 @@ export function TurmaDetalheScreen() {
   const { data: escolas } = useEscolas();
   const { data: series } = useSeries();
   const removeStudent = useRemoveStudent(id as string);
+  const deleteTurma = useDeleteTurma();
   const [studentToRemove, setStudentToRemove] = useState<ClassStudentWithProfile | null>(null);
+  const [confirmingDeleteTurma, setConfirmingDeleteTurma] = useState(false);
 
   const escola = escolas?.find((s) => s.id === turma?.schoolId);
   const serie = series?.find((g) => g.id === turma?.gradeId);
@@ -59,6 +62,13 @@ export function TurmaDetalheScreen() {
     if (!studentToRemove) return;
     removeStudent.mutate(studentToRemove.id, {
       onSuccess: () => setStudentToRemove(null),
+    });
+  };
+
+  const handleConfirmDeleteTurma = () => {
+    if (!turma) return;
+    deleteTurma.mutate(turma.id, {
+      onSuccess: () => navigate("/turmas"),
     });
   };
 
@@ -73,7 +83,7 @@ export function TurmaDetalheScreen() {
           <ErrorState />
         ) : (
           <>
-            <div className="flex items-start justify-between mb-8 gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
               <div className="flex items-start gap-4">
                 <div className="w-14 h-14 rounded-2xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
                   <GraduationCap className="w-7 h-7 text-brand" />
@@ -88,14 +98,34 @@ export function TurmaDetalheScreen() {
                   </p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => navigate(`/turmas/${turma.id}/alunos/novo`)}
-                className="flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-sm font-bold transition-colors shadow-md shadow-brand/20 flex-shrink-0"
-              >
-                <UserPlus className="w-4 h-4" />
-                Adicionar aluno
-              </button>
+              <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
+                <button
+                  type="button"
+                  onClick={() => navigate(`/turmas/${turma.id}/editar`)}
+                  title="Editar turma"
+                  aria-label="Editar turma"
+                  className="flex items-center justify-center w-10 h-10 text-muted border border-border-input rounded-xl hover:bg-bg-soft transition-colors"
+                >
+                  <Pencil className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setConfirmingDeleteTurma(true)}
+                  title="Excluir turma"
+                  aria-label="Excluir turma"
+                  className="flex items-center justify-center w-10 h-10 text-muted border border-border-input rounded-xl hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate(`/turmas/${turma.id}/alunos/novo`)}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-brand hover:bg-brand-dark text-white rounded-xl text-sm font-bold transition-colors shadow-md shadow-brand/20"
+                >
+                  <UserPlus className="w-4 h-4" />
+                  Adicionar aluno
+                </button>
+              </div>
             </div>
 
             <h2 className="text-base font-bold text-ink mb-4 font-heading">Alunos</h2>
@@ -137,22 +167,26 @@ export function TurmaDetalheScreen() {
                         Sem perfil definido
                       </span>
                     )}
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/turmas/${turma.id}/alunos/${student.id}/editar`)}
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-muted hover:text-brand hover:bg-brand/5 rounded-lg transition-colors flex-shrink-0"
-                    >
-                      <Pencil className="w-3.5 h-3.5" />
-                      Editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setStudentToRemove(student)}
-                      className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                      Remover
-                    </button>
+                    <div className="flex items-center">
+                      <button
+                        type="button"
+                        onClick={() => navigate(`/turmas/${turma.id}/alunos/${student.id}/editar`)}
+                        title="Editar aluno"
+                        aria-label={`Editar ${student.name}`}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-muted hover:text-brand hover:bg-brand/5 rounded-lg transition-colors flex-shrink-0"
+                      >
+                        <Pencil className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setStudentToRemove(student)}
+                        title="Remover aluno"
+                        aria-label={`Remover ${student.name}`}
+                        className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-bold text-muted hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors flex-shrink-0"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -171,6 +205,18 @@ export function TurmaDetalheScreen() {
         errorMessage={removeStudent.isError ? getApiErrorMessage(removeStudent.error) : null}
         onConfirm={handleConfirmRemove}
         onCancel={() => setStudentToRemove(null)}
+      />
+
+      <ConfirmDialog
+        open={confirmingDeleteTurma}
+        title="Excluir turma?"
+        description={`"${turma?.name ?? "Esta turma"}" será excluída. Essa ação não pode ser desfeita.`}
+        confirmLabel="Excluir"
+        confirmingLabel="Excluindo..."
+        isConfirming={deleteTurma.isPending}
+        errorMessage={deleteTurma.isError ? getApiErrorMessage(deleteTurma.error) : null}
+        onConfirm={handleConfirmDeleteTurma}
+        onCancel={() => setConfirmingDeleteTurma(false)}
       />
     </AppLayout>
   );

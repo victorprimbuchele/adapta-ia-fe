@@ -6,6 +6,7 @@ import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Card } from "../../../components/ui/card";
+import { PasswordInput } from "../../../components/ui/password-input";
 import { BackBtn } from "../../../components/shared/BackBtn";
 import { FieldError, FormAlert } from "../../../components/shared/FormError";
 import { useAuth } from "../hooks/useAuth";
@@ -61,9 +62,8 @@ export function RegisterScreen() {
             </div>
             <div>
               <Label htmlFor="password">Senha</Label>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 placeholder="Mínimo 8 caracteres"
                 autoComplete="new-password"
                 {...register("password")}
@@ -72,9 +72,8 @@ export function RegisterScreen() {
             </div>
             <div>
               <Label htmlFor="confirmPassword">Confirmar senha</Label>
-              <Input
+              <PasswordInput
                 id="confirmPassword"
-                type="password"
                 placeholder="Repita a senha"
                 autoComplete="new-password"
                 {...register("confirmPassword")}

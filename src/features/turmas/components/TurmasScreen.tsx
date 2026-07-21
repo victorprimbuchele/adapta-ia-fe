@@ -1,7 +1,11 @@
-import { ChevronRight, GraduationCap, Plus, UserPlus } from "lucide-react";
+import { useState } from "react";
+import { ChevronRight, GraduationCap, Pencil, Plus, Trash2, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
+import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
 import { Skeleton } from "../../../components/ui/skeleton";
+import { getApiErrorMessage } from "../../../infra/http/apiClient";
+import { useDeleteTurma } from "../hooks/useDeleteTurma";
 import { useTurmas } from "../hooks/useTurmas";
 import type { TurmaResumo } from "../hooks/useTurmas";
 
@@ -23,7 +27,7 @@ function profileBreakdown(turma: TurmaResumo): Array<{ id: string; name: string;
     .sort((a, b) => b.count - a.count);
 }
 
-function TurmaCard({ turma }: { turma: TurmaResumo }) {
+function TurmaCard({ turma, onDelete }: { turma: TurmaResumo; onDelete: (turma: TurmaResumo) => void }) {
   const navigate = useNavigate();
   const profiles = profileBreakdown(turma);
 
@@ -53,7 +57,25 @@ function TurmaCard({ turma }: { turma: TurmaResumo }) {
             </div>
           </div>
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-2 flex-wrap flex-shrink-0">
+          <button
+            type="button"
+            onClick={() => navigate(`/turmas/${turma.id}/editar`)}
+            title="Editar turma"
+            aria-label="Editar turma"
+            className="flex items-center justify-center w-8 h-8 text-muted border border-border-input rounded-lg hover:bg-bg-soft transition-colors"
+          >
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => onDelete(turma)}
+            title="Excluir turma"
+            aria-label="Excluir turma"
+            className="flex items-center justify-center w-8 h-8 text-muted border border-border-input rounded-lg hover:text-red-600 hover:bg-red-50 hover:border-red-200 transition-colors"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+          </button>
           <button
             type="button"
             onClick={() => navigate(`/turmas/${turma.id}/alunos/novo`)}
@@ -117,6 +139,15 @@ function ErrorState() {
 export function TurmasScreen() {
   const navigate = useNavigate();
   const { data: turmas, isPending, isError } = useTurmas();
+  const deleteTurma = useDeleteTurma();
+  const [turmaToDelete, setTurmaToDelete] = useState<TurmaResumo | null>(null);
+
+  const handleConfirmDelete = () => {
+    if (!turmaToDelete) return;
+    deleteTurma.mutate(turmaToDelete.id, {
+      onSuccess: () => setTurmaToDelete(null),
+    });
+  };
 
   return (
     <AppLayout>
@@ -147,11 +178,23 @@ export function TurmasScreen() {
         ) : (
           <div className="space-y-4">
             {turmas.map((turma) => (
-              <TurmaCard key={turma.id} turma={turma} />
+              <TurmaCard key={turma.id} turma={turma} onDelete={setTurmaToDelete} />
             ))}
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        open={turmaToDelete !== null}
+        title="Excluir turma?"
+        description={`"${turmaToDelete?.name ?? "Esta turma"}" será excluída. Essa ação não pode ser desfeita.`}
+        confirmLabel="Excluir"
+        confirmingLabel="Excluindo..."
+        isConfirming={deleteTurma.isPending}
+        errorMessage={deleteTurma.isError ? getApiErrorMessage(deleteTurma.error) : null}
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setTurmaToDelete(null)}
+      />
     </AppLayout>
   );
 }

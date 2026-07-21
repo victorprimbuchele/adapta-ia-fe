@@ -71,7 +71,7 @@ describe("TurmaNovaScreen", () => {
 
     await user.type(screen.getByLabelText("Nome da turma"), "6º Ano A");
     await user.selectOptions(screen.getByLabelText("Série"), "grade-1");
-    await user.selectOptions(screen.getByLabelText("Escola"), "school-1");
+    await user.selectOptions(screen.getByLabelText("Escola"), "E.M. Santos Dumont");
 
     expect(screen.getByRole("button", { name: /criar turma/i })).toBeEnabled();
   });
@@ -90,11 +90,11 @@ describe("TurmaNovaScreen", () => {
 
     await user.type(screen.getByLabelText("Nome da turma"), "6º Ano A");
     await user.selectOptions(screen.getByLabelText("Série"), "grade-1");
-    await user.selectOptions(screen.getByLabelText("Escola"), "school-1");
+    await user.selectOptions(screen.getByLabelText("Escola"), "E.M. Santos Dumont");
     await user.click(screen.getByRole("button", { name: /criar turma/i }));
 
     expect(mutate).toHaveBeenCalledWith(
-      { name: "6º Ano A", gradeId: "grade-1", schoolId: "school-1" },
+      { name: "6º Ano A", gradeId: "grade-1", schoolName: "E.M. Santos Dumont" },
       expect.anything(),
     );
   });

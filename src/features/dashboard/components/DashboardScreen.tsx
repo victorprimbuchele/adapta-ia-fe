@@ -72,6 +72,8 @@ function StatsSkeleton() {
 }
 
 function RecentActivities({ activities }: { activities: DashboardSummary["recentActivities"] }) {
+  const navigate = useNavigate();
+
   if (activities.length === 0) {
     return (
       <div className={`${cardCls} p-6 text-center`}>
@@ -83,9 +85,11 @@ function RecentActivities({ activities }: { activities: DashboardSummary["recent
   return (
     <div className="space-y-3">
       {activities.map((activity) => (
-        <div
+        <button
           key={activity.id}
-          className={`${cardCls} p-4 flex items-center gap-4 hover:border-brand/25 hover:shadow-sm transition-all`}
+          type="button"
+          onClick={() => navigate(`/atividades/${activity.id}/revisao`)}
+          className={`${cardCls} w-full p-4 flex items-center gap-4 text-left hover:border-brand/25 hover:shadow-sm transition-all`}
         >
           <div className="w-10 h-10 rounded-xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
             <FileText className="w-5 h-5 text-brand" />
@@ -97,7 +101,7 @@ function RecentActivities({ activities }: { activities: DashboardSummary["recent
             </p>
           </div>
           <StatusBadge isDraft={activity.isDraft} />
-        </div>
+        </button>
       ))}
     </div>
   );

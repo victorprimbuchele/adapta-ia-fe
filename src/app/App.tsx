@@ -9,6 +9,7 @@ import { LoginScreen } from "../features/auth/components/LoginScreen";
 import { RegisterScreen } from "../features/auth/components/RegisterScreen";
 import { DashboardScreen } from "../features/dashboard/components/DashboardScreen";
 import { TurmaDetalheScreen } from "../features/turmas/components/TurmaDetalheScreen";
+import { TurmaEditarScreen } from "../features/turmas/components/TurmaEditarScreen";
 import { TurmaNovaScreen } from "../features/turmas/components/TurmaNovaScreen";
 import { TurmasScreen } from "../features/turmas/components/TurmasScreen";
 import { ProtectedRoute } from "../routes/ProtectedRoute";
@@ -24,6 +25,7 @@ export function App() {
         <Route path="/turmas" element={<TurmasScreen />} />
         <Route path="/turmas/nova" element={<TurmaNovaScreen />} />
         <Route path="/turmas/:id" element={<TurmaDetalheScreen />} />
+        <Route path="/turmas/:id/editar" element={<TurmaEditarScreen />} />
         <Route path="/turmas/:id/alunos/novo" element={<AlunoNovoScreen />} />
         <Route path="/turmas/:id/alunos/:alunoId/editar" element={<AlunoEditarScreen />} />
         <Route path="/atividades/nova" element={<AtividadeNovaScreen />} />
