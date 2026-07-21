@@ -163,7 +163,7 @@ export function TurmaDetalheScreen() {
                         {student.learningProfile.name}
                       </span>
                     ) : (
-                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
+                      <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">
                         Sem perfil definido
                       </span>
                     )}
