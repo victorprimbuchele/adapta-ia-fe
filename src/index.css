@@ -13,7 +13,9 @@
   --color-brand-darker: #114a38;
   --color-bg-soft: #f4f8f6;
   --color-ink: #1a2d27;
-  --color-muted: #6b8279;
+  /* #6b8279 original dava ~4.1:1 sobre branco/bg-soft, abaixo do mínimo AA
+   * (4.5:1) para texto normal — escurecido para ~5:1 (Épico FE-8, tarefa 4). */
+  --color-muted: #5f746a;
   --color-border-soft: #e0ece8;
   --color-border-input: #d4e4de;
   --color-sidebar: #101f1a;

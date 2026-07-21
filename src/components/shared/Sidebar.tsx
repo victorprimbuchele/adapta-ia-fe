@@ -66,7 +66,7 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
           </button>
         </div>
 
-        <nav className="flex-1 p-3 space-y-1 pt-4">
+        <nav className="flex-1 p-3 space-y-1 pt-4" aria-label="Navegação principal">
           {NAV_ITEMS.map(({ label, Icon, target }) => {
             const active = location.pathname.startsWith(target);
             return (
@@ -74,6 +74,7 @@ export function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
                 key={label}
                 type="button"
                 onClick={() => handleNavigate(target)}
+                aria-current={active ? "page" : undefined}
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all ${
                   active ? "bg-brand text-white shadow-sm" : "text-white/50 hover:text-white/80 hover:bg-white/5"
                 }`}

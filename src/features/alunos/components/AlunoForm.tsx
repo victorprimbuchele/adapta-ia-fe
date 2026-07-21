@@ -70,7 +70,9 @@ export function AlunoForm({
         </div>
 
         <div>
-          <Label>Perfil de aprendizagem</Label>
+          <span id="learning-profile-label" className="block text-sm font-semibold text-ink mb-1.5">
+            Perfil de aprendizagem
+          </span>
           {isPerfisPending ? (
             <div className="space-y-3 mt-1">
               <Skeleton className="h-16 w-full" />
@@ -81,7 +83,12 @@ export function AlunoForm({
               name="learningProfileId"
               control={control}
               render={({ field }) => (
-                <div className="space-y-3 mt-1">
+                <div
+                  role="radiogroup"
+                  aria-labelledby="learning-profile-label"
+                  aria-describedby={errors.learningProfileId ? "learning-profile-error" : undefined}
+                  className="space-y-3 mt-1"
+                >
                   {perfis?.map((perfil) => {
                     const active = field.value === perfil.id;
                     const code = getProfileCode(perfil);
@@ -89,6 +96,8 @@ export function AlunoForm({
                       <button
                         key={perfil.id}
                         type="button"
+                        role="radio"
+                        aria-checked={active}
                         onClick={() => field.onChange(perfil.id)}
                         className={`w-full text-left p-4 rounded-xl border-2 transition-all ${
                           active ? "border-brand bg-brand/5" : "border-border-soft hover:border-brand/30"
@@ -110,7 +119,7 @@ export function AlunoForm({
               )}
             />
           )}
-          <FieldError message={errors.learningProfileId?.message} />
+          <FieldError id="learning-profile-error" message={errors.learningProfileId?.message} />
         </div>
 
         <div className="flex gap-3 pt-2">

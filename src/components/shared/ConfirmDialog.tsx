@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Loader2 } from "lucide-react";
 
 export interface ConfirmDialogProps {
@@ -30,6 +30,9 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
 }: ConfirmDialogProps) {
+  const cancelButtonRef = useRef<HTMLButtonElement>(null);
+  const triggerElementRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     if (!open) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -40,6 +43,18 @@ export function ConfirmDialog({
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, isConfirming, onCancel]);
+
+  // Foco vai pro botão de cancelar ao abrir (ação não-destrutiva por padrão)
+  // e volta pro elemento que abriu o modal ao fechar, já que trocamos o
+  // conteúdo da página inteira por esse overlay (Épico FE-8, tarefa 4).
+  useEffect(() => {
+    if (open) {
+      triggerElementRef.current = document.activeElement as HTMLElement | null;
+      cancelButtonRef.current?.focus();
+    } else {
+      triggerElementRef.current?.focus();
+    }
+  }, [open]);
 
   if (!open) return null;
 
@@ -71,6 +86,7 @@ export function ConfirmDialog({
 
         <div className="mt-6 flex gap-3">
           <button
+            ref={cancelButtonRef}
             type="button"
             onClick={onCancel}
             disabled={isConfirming}
