@@ -44,9 +44,6 @@ export function ConfirmDialog({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, isConfirming, onCancel]);
 
-  // Foco vai pro botão de cancelar ao abrir (ação não-destrutiva por padrão)
-  // e volta pro elemento que abriu o modal ao fechar, já que trocamos o
-  // conteúdo da página inteira por esse overlay (Épico FE-8, tarefa 4).
   useEffect(() => {
     if (open) {
       triggerElementRef.current = document.activeElement as HTMLElement | null;
@@ -71,7 +68,10 @@ export function ConfirmDialog({
         className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-lg"
         onClick={(event) => event.stopPropagation()}
       >
-        <h2 id="confirm-dialog-title" className="text-lg font-bold text-ink font-heading">
+        <h2
+          id="confirm-dialog-title"
+          className="text-lg font-bold text-ink font-heading"
+        >
           {title}
         </h2>
         <p id="confirm-dialog-description" className="mt-2 text-sm text-muted">
