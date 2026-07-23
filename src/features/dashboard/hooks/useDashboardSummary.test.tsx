@@ -2,11 +2,11 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import type { ReactNode } from "react";
 import { useDashboardSummary } from "./useDashboardSummary";
-import { turmasService } from "../../turmas/services/turmasService";
+import { classesService } from "../../classes/services/classesService";
 
-jest.mock("../../turmas/services/turmasService");
+jest.mock("../../classes/services/classesService");
 
-const mockedTurmasService = turmasService as jest.Mocked<typeof turmasService>;
+const mockedTurmasService = classesService as jest.Mocked<typeof classesService>;
 
 function createWrapper() {
   const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
@@ -28,11 +28,11 @@ describe("useDashboardSummary", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toEqual({
-      turmasCount: 0,
-      alunosCount: 0,
-      atividadesCount: 0,
-      atividadesEnviadasCount: 0,
-      turmas: [],
+      classesCount: 0,
+      studentsCount: 0,
+      homeworksCount: 0,
+      homeworksSentCount: 0,
+      classes: [],
       recentActivities: [],
     });
   });
@@ -64,12 +64,12 @@ describe("useDashboardSummary", () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(result.current.data).toMatchObject({
-      turmasCount: 2,
-      alunosCount: 3,
-      atividadesCount: 4,
-      atividadesEnviadasCount: 3,
+      classesCount: 2,
+      studentsCount: 3,
+      homeworksCount: 4,
+      homeworksSentCount: 3,
     });
-    expect(result.current.data?.turmas).toEqual([
+    expect(result.current.data?.classes).toEqual([
       { id: "t1", name: "6º Ano A", studentCount: 2 },
       { id: "t2", name: "7º Ano B", studentCount: 1 },
     ]);

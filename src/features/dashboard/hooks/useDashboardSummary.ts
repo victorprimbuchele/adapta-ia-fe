@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { turmasService } from "../../turmas/services/turmasService";
+import { classesService } from "../../classes/services/classesService";
 
-export interface DashboardTurmaSummary {
+export interface DashboardClassSummary {
   id: string;
   name: string;
   studentCount: number;
@@ -17,11 +17,11 @@ export interface DashboardActivity {
 }
 
 export interface DashboardSummary {
-  turmasCount: number;
-  alunosCount: number;
-  atividadesCount: number;
-  atividadesEnviadasCount: number;
-  turmas: DashboardTurmaSummary[];
+  classesCount: number;
+  studentsCount: number;
+  homeworksCount: number;
+  homeworksSentCount: number;
+  classes: DashboardClassSummary[];
   recentActivities: DashboardActivity[];
 }
 
@@ -35,38 +35,38 @@ export interface DashboardSummary {
 // envio (Épico FE-7) nem um status dedicado, e `isDraft` já é a única
 // sinalização de que a atividade deixou de ser rascunho.
 async function fetchDashboardSummary(): Promise<DashboardSummary> {
-  const turmas = await turmasService.listClasses();
+  const classes = await classesService.listClasses();
 
-  if (turmas.length === 0) {
+  if (classes.length === 0) {
     return {
-      turmasCount: 0,
-      alunosCount: 0,
-      atividadesCount: 0,
-      atividadesEnviadasCount: 0,
-      turmas: [],
+      classesCount: 0,
+      studentsCount: 0,
+      homeworksCount: 0,
+      homeworksSentCount: 0,
+      classes: [],
       recentActivities: [],
     };
   }
 
   const [studentsPerClass, activitiesPerClass] = await Promise.all([
-    Promise.all(turmas.map((turma) => turmasService.listClassStudents(turma.id))),
-    Promise.all(turmas.map((turma) => turmasService.listClassActivities(turma.id))),
+    Promise.all(classes.map((classItem) => classesService.listClassStudents(classItem.id))),
+    Promise.all(classes.map((classItem) => classesService.listClassActivities(classItem.id))),
   ]);
 
-  const turmaSummaries: DashboardTurmaSummary[] = turmas.map((turma, index) => ({
-    id: turma.id,
-    name: turma.name,
+  const classSummaries: DashboardClassSummary[] = classes.map((classItem, index) => ({
+    id: classItem.id,
+    name: classItem.name,
     studentCount: studentsPerClass[index]?.length ?? 0,
   }));
 
-  const alunosCount = studentsPerClass.reduce((sum, students) => sum + students.length, 0);
+  const studentsCount = studentsPerClass.reduce((sum, students) => sum + students.length, 0);
 
-  const allActivities: DashboardActivity[] = turmas.flatMap((turma, index) =>
+  const allActivities: DashboardActivity[] = classes.flatMap((classItem, index) =>
     (activitiesPerClass[index] ?? []).map((activity) => ({
       id: activity.id,
       title: activity.title,
-      classId: turma.id,
-      className: turma.name,
+      classId: classItem.id,
+      className: classItem.name,
       createdAt: activity.createdAt,
       isDraft: activity.isDraft,
     })),
@@ -77,11 +77,11 @@ async function fetchDashboardSummary(): Promise<DashboardSummary> {
     .slice(0, 3);
 
   return {
-    turmasCount: turmas.length,
-    alunosCount,
-    atividadesCount: allActivities.length,
-    atividadesEnviadasCount: allActivities.filter((activity) => !activity.isDraft).length,
-    turmas: turmaSummaries,
+    classesCount: classes.length,
+    studentsCount,
+    homeworksCount: allActivities.length,
+    homeworksSentCount: allActivities.filter((activity) => !activity.isDraft).length,
+    classes: classSummaries,
     recentActivities,
   };
 }

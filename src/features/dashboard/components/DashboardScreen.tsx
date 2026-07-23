@@ -17,24 +17,24 @@ function formatDate(iso: string): string {
 function StatsCards({ summary }: { summary: DashboardSummary }) {
   const stats = [
     {
-      key: "turmas",
+      key: "classes",
       label: "Turmas ativas",
-      value: summary.turmasCount,
+      value: summary.classesCount,
       color: "text-brand",
       bg: "bg-brand-soft",
     },
     {
-      key: "alunos",
+      key: "students",
       label: "Alunos cadastrados",
-      value: summary.alunosCount,
+      value: summary.studentsCount,
       color: "text-blue-700",
       bg: "bg-blue-50",
     },
     {
-      key: "atividades",
+      key: "homeworks",
       label: "Atividades enviadas",
-      value: summary.atividadesEnviadasCount,
-      sub: `${summary.atividadesCount} atividade${summary.atividadesCount === 1 ? "" : "s"} no total`,
+      value: summary.homeworksSentCount,
+      sub: `${summary.homeworksCount} atividade${summary.homeworksCount === 1 ? "" : "s"} no total`,
       color: "text-violet-600",
       bg: "bg-violet-50",
     },
@@ -106,23 +106,23 @@ function RecentActivities({ activities }: { activities: DashboardSummary["recent
   );
 }
 
-function TurmasQuickAccess({ turmas }: { turmas: DashboardSummary["turmas"] }) {
+function ClassesQuickAccess({ classes }: { classes: DashboardSummary["classes"] }) {
   const navigate = useNavigate();
 
   return (
     <div className="space-y-2.5">
-      {turmas.map((turma) => (
+      {classes.map((classItem) => (
         <button
-          key={turma.id}
+          key={classItem.id}
           type="button"
-          onClick={() => navigate(`/turmas/${turma.id}`)}
+          onClick={() => navigate(`/turmas/${classItem.id}`)}
           className={`${cardCls} w-full p-4 text-left hover:border-brand/30 transition-all group`}
         >
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-bold text-sm text-ink">{turma.name}</p>
+              <p className="font-bold text-sm text-ink">{classItem.name}</p>
               <p className="text-xs text-muted mt-0.5">
-                {turma.studentCount} aluno{turma.studentCount !== 1 ? "s" : ""}
+                {classItem.studentCount} aluno{classItem.studentCount !== 1 ? "s" : ""}
               </p>
             </div>
             <ChevronRight className="w-4 h-4 text-border-input group-hover:text-brand transition-colors" />
@@ -190,7 +190,7 @@ export function DashboardScreen() {
             <h1 className="text-2xl font-bold text-ink font-heading">Olá, {firstName}!</h1>
             <p className="text-muted text-sm mt-1">Bem-vindo(a) de volta ao Adapta.ia</p>
           </div>
-          {summary && summary.turmasCount > 0 ? (
+          {summary && summary.classesCount > 0 ? (
             <button
               type="button"
               onClick={() => navigate("/atividades/nova")}
@@ -219,7 +219,7 @@ export function DashboardScreen() {
           </>
         ) : isError || !summary ? (
           <ErrorState />
-        ) : summary.turmasCount === 0 ? (
+        ) : summary.classesCount === 0 ? (
           <EmptyState />
         ) : (
           <>
@@ -243,7 +243,7 @@ export function DashboardScreen() {
                     Ver todas
                   </button>
                 </div>
-                <TurmasQuickAccess turmas={summary.turmas} />
+                <ClassesQuickAccess classes={summary.classes} />
               </div>
             </div>
           </>

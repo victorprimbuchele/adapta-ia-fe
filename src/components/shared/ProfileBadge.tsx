@@ -3,13 +3,13 @@ import { cn } from "../../lib/utils";
 export interface ProfileBadgeProps {
   /** Nome do perfil de aprendizagem; `null`/`undefined` renderiza o estado "sem perfil". */
   name?: string | null;
-  /** Prefixo opcional (ex: contagem de alunos por perfil em `TurmasScreen`). */
+  /** Prefixo opcional (ex: contagem de alunos por perfil em `ClassesScreen`). */
   count?: number;
   className?: string;
 }
 
 // Componente compartilhado (Épico FE-8, tarefa 3): mesma pill de perfil de
-// aprendizagem estava duplicada em TurmaDetalheScreen e TurmasScreen, cada
+// aprendizagem estava duplicada em ClassDetailScreen e ClassesScreen, cada
 // uma com um estilo levemente diferente.
 export function ProfileBadge({ name, count, className }: ProfileBadgeProps) {
   if (!name) {

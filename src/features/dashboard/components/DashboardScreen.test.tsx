@@ -64,11 +64,11 @@ describe("DashboardScreen", () => {
 
   it("mostra o estado vazio quando o professor não tem turmas", () => {
     const summary: DashboardSummary = {
-      turmasCount: 0,
-      alunosCount: 0,
-      atividadesCount: 0,
-      atividadesEnviadasCount: 0,
-      turmas: [],
+      classesCount: 0,
+      studentsCount: 0,
+      homeworksCount: 0,
+      homeworksSentCount: 0,
+      classes: [],
       recentActivities: [],
     };
     mockSummaryResult({ isPending: false, isError: false, data: summary });
@@ -81,11 +81,11 @@ describe("DashboardScreen", () => {
 
   it("mostra contagens, atividades recentes e turmas quando há dados", () => {
     const summary: DashboardSummary = {
-      turmasCount: 2,
-      alunosCount: 5,
-      atividadesCount: 3,
-      atividadesEnviadasCount: 2,
-      turmas: [
+      classesCount: 2,
+      studentsCount: 5,
+      homeworksCount: 3,
+      homeworksSentCount: 2,
+      classes: [
         { id: "t1", name: "6º Ano A", studentCount: 3 },
         { id: "t2", name: "7º Ano B", studentCount: 2 },
       ],
@@ -98,9 +98,9 @@ describe("DashboardScreen", () => {
 
     renderDashboard();
 
-    expect(screen.getByTestId("stat-turmas")).toHaveTextContent("2");
-    expect(screen.getByTestId("stat-alunos")).toHaveTextContent("5");
-    expect(screen.getByTestId("stat-atividades")).toHaveTextContent("2");
+    expect(screen.getByTestId("stat-classes")).toHaveTextContent("2");
+    expect(screen.getByTestId("stat-students")).toHaveTextContent("5");
+    expect(screen.getByTestId("stat-homeworks")).toHaveTextContent("2");
     expect(screen.getByText("Frações")).toBeInTheDocument();
     expect(screen.getByText("Interpretação de texto")).toBeInTheDocument();
     expect(screen.getByText("Rascunho")).toBeInTheDocument();
