@@ -162,7 +162,7 @@ function LoginScreen({ onLogin, onRegister }: { onLogin: () => void; onRegister:
           <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
             <Brain className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-bold text-white font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ia</span>
+          <span className="text-2xl font-bold text-white font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ai</span>
         </div>
 
         <div className="relative">
@@ -183,7 +183,7 @@ function LoginScreen({ onLogin, onRegister }: { onLogin: () => void; onRegister:
           </div>
         </div>
 
-        <p className="relative text-white/30 text-xs">© 2026 Adapta.ia — Educação inclusiva para todos</p>
+        <p className="relative text-white/30 text-xs">© 2026 Adapta.ai — Educação inclusiva para todos</p>
       </div>
 
       {/* Right panel */}
@@ -191,7 +191,7 @@ function LoginScreen({ onLogin, onRegister }: { onLogin: () => void; onRegister:
         <div className="w-full max-w-[420px]">
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
             <Brain className="w-7 h-7 text-[#1A6E54]" />
-            <span className="text-2xl font-bold text-[#1A2D27] font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ia</span>
+            <span className="text-2xl font-bold text-[#1A2D27] font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ai</span>
           </div>
 
           <div className={`${cardCls} p-8 shadow-sm`}>
@@ -256,7 +256,7 @@ function RegisterScreen({ onLogin, onBack }: { onLogin: () => void; onBack: () =
       <div className="w-full max-w-[480px]">
         <div className="flex items-center gap-2.5 mb-8">
           <Brain className="w-7 h-7 text-[#1A6E54]" />
-          <span className="text-2xl font-bold text-[#1A2D27] font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ia</span>
+          <span className="text-2xl font-bold text-[#1A2D27] font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ai</span>
         </div>
 
         <div className={`${cardCls} p-8 shadow-sm`}>
@@ -325,7 +325,7 @@ function Sidebar({
           <div className="w-9 h-9 rounded-xl bg-[#1A6E54] flex items-center justify-center shadow-md">
             <Brain className="w-5 h-5 text-white" />
           </div>
-          <span className="text-lg font-bold text-white font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ia</span>
+          <span className="text-lg font-bold text-white font-[Plus_Jakarta_Sans,sans-serif]">Adapta.ai</span>
         </div>
       </div>
 

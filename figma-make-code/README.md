@@ -1,7 +1,7 @@
 
-  # Adapta.ia Web Prototype
+  # Adapta.ai Web Prototype
 
-  This is a code bundle for Adapta.ia Web Prototype. The original project is available at https://www.figma.com/design/zxGp67nQOM7iwOULJVegu8/Adapta.ia-Web-Prototype.
+  This is a code bundle for Adapta.ai Web Prototype. The original project is available at https://www.figma.com/design/zxGp67nQOM7iwOULJVegu8/Adapta.ai-Web-Prototype.
 
   ## Running the code
 

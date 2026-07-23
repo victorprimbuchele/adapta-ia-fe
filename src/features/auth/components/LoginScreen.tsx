@@ -39,7 +39,7 @@ export function LoginScreen() {
           <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
             <Brain className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-bold text-white font-heading">Adapta.ia</span>
+          <span className="text-2xl font-bold text-white font-heading">Adapta.ai</span>
         </div>
 
         <div className="relative">
@@ -56,14 +56,14 @@ export function LoginScreen() {
           </div>
         </div>
 
-        <p className="relative text-white/30 text-xs">© 2026 Adapta.ia — Educação inclusiva para todos</p>
+        <p className="relative text-white/30 text-xs">© 2026 Adapta.ai — Educação inclusiva para todos</p>
       </div>
 
       <div className="flex-1 flex items-center justify-center p-6 bg-bg-soft">
         <div className="w-full max-w-[420px]">
           <div className="lg:hidden flex items-center gap-2.5 mb-8">
             <Brain className="w-7 h-7 text-brand" />
-            <span className="text-2xl font-bold text-ink font-heading">Adapta.ia</span>
+            <span className="text-2xl font-bold text-ink font-heading">Adapta.ai</span>
           </div>
 
           <Card className="p-8 shadow-sm">

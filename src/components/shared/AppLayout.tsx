@@ -23,7 +23,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
           >
             <Menu className="w-5 h-5" />
           </button>
-          <span className="font-bold text-ink font-heading">Adapta.ia</span>
+          <span className="font-bold text-ink font-heading">Adapta.ai</span>
         </header>
 
         <main className="flex-1 overflow-auto">{children}</main>

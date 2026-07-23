@@ -33,7 +33,7 @@ export function RegisterScreen() {
       <div className="w-full max-w-[480px]">
         <div className="flex items-center gap-2.5 mb-8">
           <Brain className="w-7 h-7 text-brand" />
-          <span className="text-2xl font-bold text-ink font-heading">Adapta.ia</span>
+          <span className="text-2xl font-bold text-ink font-heading">Adapta.ai</span>
         </div>
 
         <Card className="p-8 shadow-sm">

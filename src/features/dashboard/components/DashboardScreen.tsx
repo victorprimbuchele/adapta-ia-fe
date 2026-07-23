@@ -188,7 +188,7 @@ export function DashboardScreen() {
         <div className="mb-8 flex items-start justify-between gap-4">
           <div>
             <h1 className="text-2xl font-bold text-ink font-heading">Olá, {firstName}!</h1>
-            <p className="text-muted text-sm mt-1">Bem-vindo(a) de volta ao Adapta.ia</p>
+            <p className="text-muted text-sm mt-1">Bem-vindo(a) de volta ao Adapta.ai</p>
           </div>
           {summary && summary.classesCount > 0 ? (
             <button
