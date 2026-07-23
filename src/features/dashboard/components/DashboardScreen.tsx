@@ -2,12 +2,11 @@ import { ChevronRight, FileText, Plus, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { StatusBadge } from "../../../components/shared/StatusBadge";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { useAuthStore } from "../../../store/authStore";
 import { useDashboardSummary } from "../hooks/useDashboardSummary";
 import type { DashboardSummary } from "../hooks/useDashboardSummary";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 const dateFormatter = new Intl.DateTimeFormat("pt-BR", { day: "numeric", month: "short", year: "numeric" });
 
@@ -22,7 +21,7 @@ function StatsCards({ summary }: { summary: DashboardSummary }) {
       label: "Turmas ativas",
       value: summary.turmasCount,
       color: "text-brand",
-      bg: "bg-[#E8F5F0]",
+      bg: "bg-brand-soft",
     },
     {
       key: "alunos",
@@ -91,7 +90,7 @@ function RecentActivities({ activities }: { activities: DashboardSummary["recent
           onClick={() => navigate(`/atividades/${activity.id}/revisao`)}
           className={`${cardCls} w-full p-4 flex items-center gap-4 text-left hover:border-brand/25 hover:shadow-sm transition-all`}
         >
-          <div className="w-10 h-10 rounded-xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
+          <div className="w-10 h-10 rounded-xl bg-brand-soft flex items-center justify-center flex-shrink-0">
             <FileText className="w-5 h-5 text-brand" />
           </div>
           <div className="flex-1 min-w-0">
@@ -147,7 +146,7 @@ function EmptyState() {
 
   return (
     <div className={`${cardCls} p-10 text-center max-w-md mx-auto mt-8`}>
-      <div className="w-14 h-14 rounded-2xl bg-[#E8F5F0] flex items-center justify-center mx-auto mb-4">
+      <div className="w-14 h-14 rounded-2xl bg-brand-soft flex items-center justify-center mx-auto mb-4">
         <Users className="w-7 h-7 text-brand" />
       </div>
       <h2 className="text-lg font-bold text-ink font-heading mb-1.5">Crie sua primeira turma</h2>

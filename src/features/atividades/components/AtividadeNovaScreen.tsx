@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
 import { FieldError, FormAlert } from "../../../components/shared/FormError";
-import { Card } from "../../../components/ui/card";
+import { Card, cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import { Select } from "../../../components/ui/select";
@@ -17,8 +17,6 @@ import { useCreateAtividade } from "../hooks/useCreateAtividade";
 import { useTurmasOptions } from "../hooks/useTurmasOptions";
 import { atividadeSchema, type AtividadeFormValues } from "../schemas/atividadeSchemas";
 
-const cardCls = "bg-white rounded-2xl border border-border-soft";
-
 const ERROR_MESSAGES: Record<string, string> = {
   CLASS_NOT_FOUND: "Turma não encontrada.",
   CLASS_ACCESS_DENIED: "Você não tem acesso a esta turma.",
@@ -29,7 +27,7 @@ function EmptyState() {
   const navigate = useNavigate();
   return (
     <div className={`${cardCls} p-10 text-center max-w-md mx-auto mt-8`}>
-      <div className="w-14 h-14 rounded-2xl bg-[#E8F5F0] flex items-center justify-center mx-auto mb-4">
+      <div className="w-14 h-14 rounded-2xl bg-brand-soft flex items-center justify-center mx-auto mb-4">
         <FileText className="w-7 h-7 text-brand" />
       </div>
       <h2 className="text-lg font-bold text-ink font-heading mb-1.5">Crie uma turma primeiro</h2>

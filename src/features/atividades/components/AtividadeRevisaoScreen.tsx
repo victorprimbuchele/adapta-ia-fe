@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
 import { FormAlert } from "../../../components/shared/FormError";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { getProfileCode, parseProfilePrompt } from "../../../lib/learningProfilePrompt";
@@ -15,8 +16,6 @@ import { useAdaptationStatus } from "../hooks/useAdaptationStatus";
 import { useAuthenticatedFileUrl } from "../hooks/useAuthenticatedFileUrl";
 import { useHomeworkDetail } from "../hooks/useHomeworkDetail";
 import { useSendHomework } from "../hooks/useSendHomework";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 function AudioPlayer({ fileId }: { fileId: string }) {
   const { url, isPending, isError } = useAuthenticatedFileUrl(fileId);
@@ -163,7 +162,7 @@ export function AtividadeRevisaoScreen() {
         ) : (
           <>
             <div className="mb-8">
-              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand bg-[#E8F5F0] px-3 py-1.5 rounded-full mb-3">
+              <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand bg-brand-soft px-3 py-1.5 rounded-full mb-3">
                 <Sparkles className="w-3.5 h-3.5" />
                 Versões geradas pela IA
               </div>
@@ -201,7 +200,7 @@ export function AtividadeRevisaoScreen() {
 
             <div className={`${cardCls} p-5 flex items-center justify-between gap-4 flex-wrap`}>
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-brand-soft flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-brand" />
                 </div>
                 <div>

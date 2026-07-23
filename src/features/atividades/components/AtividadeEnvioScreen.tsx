@@ -8,6 +8,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import type {
@@ -16,8 +17,6 @@ import type {
 } from "../../../types/delivery";
 import { useDeliveryStatus } from "../hooks/useDeliveryStatus";
 import { useResendDelivery } from "../hooks/useResendDelivery";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 function RecipientStatusPill({ status }: { status: DeliveryRecipientStatus }) {
   const config: Record<
@@ -170,7 +169,7 @@ export function AtividadeEnvioScreen() {
 
             {!stillSending && failedCount === 0 ? (
               <div className={`${cardCls} p-6 flex items-center gap-3`}>
-                <div className="w-10 h-10 rounded-xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-brand-soft flex items-center justify-center flex-shrink-0">
                   <Mail className="w-5 h-5 text-brand" />
                 </div>
                 <p className="text-sm text-ink font-medium">

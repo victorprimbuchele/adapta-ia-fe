@@ -10,6 +10,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import {
   getApiErrorCode,
   getApiErrorMessage,
@@ -22,8 +23,6 @@ import type {
   AdaptationStatus,
   ProfileAdaptationStatus,
 } from "../../../types/homework";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 const ERROR_MESSAGES: Record<string, string> = {
   NO_LEARNING_PROFILES_TO_ADAPT:
@@ -118,7 +117,7 @@ export function AtividadeProcessandoScreen() {
       <div className="p-8 max-w-3xl mx-auto">
         <BackBtn onClick={() => navigate("/dashboard")} label="Dashboard" />
 
-        <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand bg-[#E8F5F0] px-3 py-1.5 rounded-full mb-3">
+        <div className="inline-flex items-center gap-1.5 text-xs font-bold text-brand bg-brand-soft px-3 py-1.5 rounded-full mb-3">
           <Sparkles className="w-3.5 h-3.5" />
           Gerando versões adaptadas
         </div>
@@ -176,7 +175,7 @@ export function AtividadeProcessandoScreen() {
                       type="button"
                       onClick={() => handleRetry(profile)}
                       disabled={adaptHomework.isPending}
-                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand border border-brand/25 rounded-lg hover:bg-[#E8F5F0] transition-colors disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand border border-brand/25 rounded-lg hover:bg-brand-soft transition-colors disabled:opacity-50"
                     >
                       <RefreshCw className="w-3.5 h-3.5" />
                       Tentar novamente
@@ -192,7 +191,7 @@ export function AtividadeProcessandoScreen() {
               <button
                 type="button"
                 onClick={() => navigate(`/atividades/${homeworkId}/revisao`)}
-                className="w-full py-3 rounded-xl border-2 border-dashed border-brand/40 text-brand text-sm font-bold hover:bg-[#E8F5F0] transition-colors"
+                className="w-full py-3 rounded-xl border-2 border-dashed border-brand/40 text-brand text-sm font-bold hover:bg-brand-soft transition-colors"
               >
                 Ver adaptações concluídas mesmo assim
               </button>

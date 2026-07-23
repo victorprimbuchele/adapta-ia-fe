@@ -4,13 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { AppLayout } from "../../../components/shared/AppLayout";
 import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
 import { ProfileBadge } from "../../../components/shared/ProfileBadge";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { useDeleteTurma } from "../hooks/useDeleteTurma";
 import { useTurmas } from "../hooks/useTurmas";
 import type { TurmaResumo } from "../hooks/useTurmas";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 function profileBreakdown(turma: TurmaResumo): Array<{ id: string; name: string; count: number }> {
   const counts = new Map<string, { name: string; count: number }>();
@@ -36,7 +35,7 @@ function TurmaCard({ turma, onDelete }: { turma: TurmaResumo; onDelete: (turma: 
     <div className={`${cardCls} p-5 hover:border-brand/25 hover:shadow-sm transition-all`}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-4 min-w-0">
-          <div className="w-12 h-12 rounded-2xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-brand-soft flex items-center justify-center flex-shrink-0">
             <GraduationCap className="w-6 h-6 text-brand" />
           </div>
           <div className="min-w-0">
@@ -79,7 +78,7 @@ function TurmaCard({ turma, onDelete }: { turma: TurmaResumo; onDelete: (turma: 
           <button
             type="button"
             onClick={() => navigate(`/turmas/${turma.id}/alunos/novo`)}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand border border-brand/25 rounded-lg hover:bg-[#E8F5F0] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand border border-brand/25 rounded-lg hover:bg-brand-soft transition-colors"
           >
             <UserPlus className="w-3.5 h-3.5" />
             Adicionar aluno

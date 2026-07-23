@@ -5,6 +5,7 @@ import { AppLayout } from "../../../components/shared/AppLayout";
 import { BackBtn } from "../../../components/shared/BackBtn";
 import { ConfirmDialog } from "../../../components/shared/ConfirmDialog";
 import { ProfileBadge } from "../../../components/shared/ProfileBadge";
+import { cardBaseClass as cardCls } from "../../../components/ui/card";
 import { Skeleton } from "../../../components/ui/skeleton";
 import { getApiErrorMessage } from "../../../infra/http/apiClient";
 import { useRemoveStudent } from "../../alunos/hooks/useRemoveStudent";
@@ -13,8 +14,6 @@ import { useSeries } from "../hooks/useSeries";
 import { useEscolas } from "../hooks/useEscolas";
 import { useTurmaDetalhe } from "../hooks/useTurmaDetalhe";
 import type { ClassStudentWithProfile } from "../../../types/class";
-
-const cardCls = "bg-white rounded-2xl border border-border-soft";
 
 function initials(name: string): string {
   return name
@@ -86,7 +85,7 @@ export function TurmaDetalheScreen() {
           <>
             <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
               <div className="flex items-start gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-[#E8F5F0] flex items-center justify-center flex-shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-brand-soft flex items-center justify-center flex-shrink-0">
                   <GraduationCap className="w-7 h-7 text-brand" />
                 </div>
                 <div>
@@ -152,7 +151,7 @@ export function TurmaDetalheScreen() {
                       index < alunos.length - 1 ? "border-b border-border-soft" : ""
                     }`}
                   >
-                    <div className="w-9 h-9 rounded-full bg-[#E8F5F0] flex items-center justify-center text-brand text-xs font-bold flex-shrink-0">
+                    <div className="w-9 h-9 rounded-full bg-brand-soft flex items-center justify-center text-brand text-xs font-bold flex-shrink-0">
                       {initials(student.name)}
                     </div>
                     <div className="flex-1 min-w-0">
